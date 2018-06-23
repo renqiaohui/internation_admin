@@ -1,0 +1,37 @@
+{
+  "apps": [{
+    "name": "lianbit",
+    "cwd": "./dist",
+    "node_args": "--harmony",
+    "ignore_watch": [
+      "logs",
+      "public"
+    ],
+    "out_file": "./logs/app-out.log",
+    "error_file": "./logs/app-out.log",
+    "watch_options": {
+      "followSymlinks": false
+    },
+    "env_production": {
+      "NODE_ENV": "production",
+      "REMOTE_ADDR": "http://lianbit.yutiy.top/"
+    }
+  }],
+  "deploy": {
+    "production": {
+      "user": "yutiy",
+      "host": ["101.132.186.84"],
+      "port": 22,
+      "ref": "origin/master",
+      "repo": "git@101.132.186.84:/srv/repo/lianbitVue.git",
+      "path": "/opt/www/lianbit",
+      "ssh_options": "StrictHostKeyChecking=no",
+      "pre-deploy": "git pull",
+      "post-deploy": "yarn build && pm2 startOrRestart ecosystem.json --env production",
+      "pre-depoly-local": "echo 'Depoly Done!'",
+      "env": {
+        "NODE_ENV": "production"
+      }
+    }
+  }
+}
